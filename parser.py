@@ -6,7 +6,7 @@ import os
 import requests
 import argparse
 import csv
-
+import time
 class htmlParser(object):
     def __init__(self, config_file):
         self.header={"Connection":"close"}
@@ -81,7 +81,7 @@ class htmlParser(object):
         content['desc']=desc
 
         head, tail=os.path.split(filename)
-        tazze_link='https://www.taaze.tw/sing.html?pid='+tail[:-5]
+        tazze_link='http://www.taaze.tw/sing.html?pid='+tail[:-5]
         content['link']={'tazze':tazze_link}
         
         #print("content={}".format(content))
@@ -97,7 +97,7 @@ class htmlParser(object):
         return True, content['ISBN_no']
 
     def download_html(self, pid):
-        url='https://www.taaze.tw/sing.html?pid='+str(pid)
+        url='http://www.taaze.tw/sing.html?pid='+str(pid)
         r=requests.get(url, headers=self.header)
         if r.status_code==200:
             filename='{}.html'.format(pid)
@@ -113,7 +113,7 @@ class htmlParser(object):
         large=False
         small=False
 
-        url='https://media.taaze.tw/showLargeImage.html?sc='+str(pid)
+        url='http://media.taaze.tw/showLargeImage.html?sc='+str(pid)
         r=requests.get(url, headers=self.header)
         if r.status_code==200:
             filename='{}.jpg'.format(isbn)
@@ -161,6 +161,7 @@ if __name__=="__main__":
             else:
                 status=False
             writer.writerow({"pid":pid, 'isbn':ISBN, "status":status})
+            time.sleep(1)
         status_output.close()    
     elif task=='download':    
         status_output=open(project_config['download_status_csv'], 'a')
@@ -168,6 +169,7 @@ if __name__=="__main__":
         for pid in range(project_config['start'], project_config['end']):
             status=parser.download_html(pid)
             writer.writerow({"pid":pid, "status":status})
+            time.sleep(1)
         status_output.close()
     elif task=='image':
         status_output=open(project_config['image_status_csv'], 'a')
@@ -178,5 +180,8 @@ if __name__=="__main__":
             if row['status']=='True':
                 large, small=status=parser.download_img(row['pid'], row['isbn'])
                 writer.writerow({"pid":row['pid'], 'isbn':row['isbn'], "large":large, 'small':small})
+                time.sleep(1)
+        status_output.close()
+        isbn_input.close()
     else:
         print("no match job!")
