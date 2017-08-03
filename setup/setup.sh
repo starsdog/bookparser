@@ -15,3 +15,6 @@ if [ ! -d '../media' ]; then
     mkdir ../media/small
 fi
 
+cp ../image.csv.org ../image.csv
+cp ../download.csv.org ../download.csv
+cp ../parse.csv.org ../parse.csv
