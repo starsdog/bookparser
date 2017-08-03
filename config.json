@@ -1,10 +1,13 @@
 {
     "html_folder":"/home/ling/bookparser/html/",
     "json_folder":"/home/ling/bookparser/json/",
-   
+    "large_media_folder":"/home/ling/bookparser/media/large/",
+    "small_media_folder":"/home/ling/bookparser/media/small/",
+
     "parse_status_csv":"/home/ling/bookparser/parse.csv",
     "download_status_csv":"/home/ling/bookparser/download.csv",
+    "image_status_csv":"/home/ling/bookparser/image.csv",
 
-    "start":11100821124,
-    "end":11100821126
+    "start":11100820000,
+    "end":11100821289
 }    
