@@ -1,0 +1,1 @@
+pid,isbn,large,small
