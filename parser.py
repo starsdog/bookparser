@@ -123,7 +123,7 @@ class htmlParser(object):
             output.write(r.content)
             output.close()
             large=True
-            url='https://media.taaze.tw/showProdImage.html?sc='+str(pid)
+            url='http://media.taaze.tw/showProdImage.html?sc='+str(pid)
             r=requests.get(url, headers=self.header)
             if r.status_code==200:
                 output_file=os.path.join(self.small_media_folder, filename)
