@@ -162,7 +162,7 @@ if __name__=="__main__":
             else:
                 status=False
             writer.writerow({"pid":pid, 'isbn':ISBN, "status":status})
-            time.sleep(1)
+            time.sleep(0.1)
         status_output.close()    
     elif task=='download':    
         status_output=open(project_config['download_status_csv'], 'a')
@@ -181,7 +181,7 @@ if __name__=="__main__":
             if row['status']=='True':
                 large, small=status=parser.download_img(row['pid'], row['isbn'])
                 writer.writerow({"pid":row['pid'], 'isbn':row['isbn'], "large":large, 'small':small})
-                time.sleep(1)
+                time.sleep(0.1)
         status_output.close()
         isbn_input.close()
     else:
