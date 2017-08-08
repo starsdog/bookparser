@@ -178,7 +178,8 @@ if __name__=="__main__":
         reader=csv.DictReader(isbn_input)
         writer=csv.DictWriter(status_output, fieldnames=['pid','isbn','large','small'])
         for row in reader:
-            if row['status']=='True':
+            pid=int(row['pid'])
+            if row['status']=='True' and pid in range(project_config['start'], project_config['end']):
                 large, small=status=parser.download_img(row['pid'], row['isbn'])
                 writer.writerow({"pid":row['pid'], 'isbn':row['isbn'], "large":large, 'small':small})
                 time.sleep(0.1)
