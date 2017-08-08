@@ -57,7 +57,7 @@ class htmlParser(object):
 
         brief_info=tree.xpath("//div[@id='prodPfDiv']")
         desc=''
-        ad_word=['關鍵特色', '好評推薦', '作者簡介', '佳評如潮', '暢銷書']
+        ad_word=['關鍵特色', '好評推薦', '作者簡介', '佳評如潮', '暢銷書', '本書特色']
         if len(brief_info):
             for child in brief_info[0]:
                 if child.text != None and '作者簡介' in child.text:
@@ -66,8 +66,10 @@ class htmlParser(object):
                 cleaner = Cleaner()
                 cleaner.remove_tags = ['p','br','span','font','b','center']
                 innertext=etree.tostring(child, encoding='unicode', method='html').replace("<div>","").replace("</div>","")
-
-                cleaned=cleaner.clean_html(innertext).replace("<div>","").replace("</div>","")
+                
+                cleaned=cleaner.clean_html(innertext)
+                if len(cleaned):
+                    cleaned=cleaned.replace("<div>","").replace("</div>","")
             
                 ad_exist=False
                 for word in ad_word:
@@ -183,5 +185,13 @@ if __name__=="__main__":
                 time.sleep(0.1)
         status_output.close()
         isbn_input.close()
+    elif task=='parse_test':
+        filename="{}.html".format(project_config['test_pid'])
+        filepath=os.path.join(root_dir, 'html', filename)
+        if os.path.exists(filepath):
+            status, ISBN=parser.parse_html(filepath)
+        else:
+            status=False
+        print("parse test={}".format(status))    
     else:
         print("no match job!")
