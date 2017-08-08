@@ -1,3 +1,4 @@
+#coding=utf-8
 from lxml import etree
 from lxml import html
 from lxml.html.clean import Cleaner
