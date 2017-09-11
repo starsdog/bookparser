@@ -24,8 +24,11 @@ class htmlParser(object):
         except:
             return False, ''
 
-        prod_info=tree.xpath("//li//span")
         content={}
+        title=tree.xpath("//meta[@name='title']/@content")[0][:-1]
+        content['title']=title
+
+        prod_info=tree.xpath("//li//span")
         for p in prod_info:
             #print("p={}".format(p.text))
             if p.text != None and '作者' in p.text:
@@ -188,7 +191,7 @@ if __name__=="__main__":
         isbn_input.close()
     elif task=='parse_test':
         filename="{}.html".format(project_config['test_pid'])
-        filepath=os.path.join(root_dir, 'html', filename)
+        filepath=os.path.join(project_config['html_folder'], filename)
         if os.path.exists(filepath):
             status, ISBN=parser.parse_html(filepath)
         else:
