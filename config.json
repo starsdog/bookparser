@@ -9,5 +9,20 @@
     "image_status_csv":"/home/ling/bookparser/image.csv",
 
     "start":11100820000,
-    "end":11100821289
+    "end":11100823230, 
+
+    "test_isbn":"9789888466184",
+
+    "db_pool":{
+        "min_conn":3,
+        "max_conn":5
+    },
+
+    "db_conf":{
+        "host":"localhost",
+        "port":5432,
+        "dbname":"milibro",
+        "user":"libro",
+        "password":"libro54642558"
+    }    
 }    
