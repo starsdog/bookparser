@@ -1,17 +1,33 @@
 {
-    "html_folder":"/home/ling/bookparser/html/",
-    "json_folder":"/home/ling/bookparser/json/",
+    "html_folder":"/Users/ling/Documents/tazze/html/",
+    "json_folder":"/Users/ling/Documents/tazze_test/",
     "large_media_folder":"/home/ling/bookparser/media/large/",
     "small_media_folder":"/home/ling/bookparser/media/small/",
-
-    "parse_status_csv":"/home/ling/bookparser/parse.csv",
+    "parse_status_csv":"/Users/ling/Documents/bookparser/parse.csv",
     "download_status_csv":"/home/ling/bookparser/download.csv",
     "image_status_csv":"/home/ling/bookparser/image.csv",
 
-    "start":11100820000,
-    "end":11100823230, 
+    "books_index_folder":"/Users/ling/Documents/books/html_index/", 
+    "books_link_folder":"/Users/ling/Documents/books/link_csv/",
+    "books_html_folder":"/Users/ling/Documents/books/html/",
+    "books_json_folder":"/Users/ling/Documents/books/json/",
+    "books_img_folder":"/Users/ling/Documents/books/image/",
+    "books_parse_status_csv":"/Users/ling/Documents/books/parse.csv",
+   
+    "start":11100400000,
+    "end":  11100420000, 
 
-    "test_isbn":"9789888466184",
+    "test_isbn":"9570915269",
+    "test_pid":11100419637,
+    "test_author":"宋錦繡",
+    "test_email":"yiling.chen@gmail.com",
+    "test_password":"123456",
+
+    "books_folder_list":{
+    	"010101":19,
+    	"010102":3
+
+    },
 
     "db_pool":{
         "min_conn":3,
@@ -21,7 +37,7 @@
     "db_conf":{
         "host":"localhost",
         "port":5432,
-        "dbname":"milibro",
+        "dbname":"milibro_dev",
         "user":"libro",
         "password":"libro54642558"
     }    
