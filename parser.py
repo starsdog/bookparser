@@ -156,27 +156,31 @@ class htmlParser(object):
                 output.close()
 
     def download_books_html(self):
-        for dirPath, dirNames, fileNames in os.walk(self.books_link_folder):        
-            for f in fileNames:
-                if '.json' in f:
-                    filename="{}".format(os.path.join(dirPath, f))
-                    file_handler=open(filename)
-                    download_link=json.load(file_handler)
-                    for link in download_link:
-                        basename_index=link.rfind('/')
-                        #loc_index=link.find('loc=')
-                        link_filename=link[basename_index+1:]
-                        filename='{}.html'.format(link_filename)
-                        output_file=os.path.join(self.books_html_folder, filename)
-                        if os.path.exists(output_file):
-                            continue
-    
-                        r=requests.get(link, headers=self.header)
-                        if r.status_code==200:
-                            output=open(output_file, "wb")
-                            output.write(r.content)
-                            output.close()
-                        time.sleep(0.5)  
+        try:
+            for dirPath, dirNames, fileNames in os.walk(self.books_link_folder):        
+                for f in fileNames:
+                    if '.json' in f:
+                        filename="{}".format(os.path.join(dirPath, f))
+                        file_handler=open(filename)
+                        download_link=json.load(file_handler)
+                        for link in download_link:
+                            basename_index=link.rfind('/')
+                            #loc_index=link.find('loc=')
+                            link_filename=link[basename_index+1:]
+                            filename='{}.html'.format(link_filename)
+                            output_file=os.path.join(self.books_html_folder, filename)
+                            if os.path.exists(output_file):
+                                continue
+        
+                            r=requests.get(link, headers=self.header)
+                            if r.status_code==200:
+                                output=open(output_file, "wb")
+                                output.write(r.content)
+                                output.close()
+                            time.sleep(5)
+                        print("{} complete!".format(f))    
+        except Exception as e:
+            time.sleep(60)                    
                         
     def parse_books_index(self, filename):
         parser=etree.HTMLParser()
