@@ -11,6 +11,9 @@ class DBBase(object):
         super().__init__()
         self.conn_pool = glb_conn_pool
         
+    def _return_connection(self, conn):
+        self.conn_pool.putconn(conn)
+
     def _get_connection(self):
         try:
             conn=self.conn_pool.getconn()
@@ -31,29 +34,37 @@ class DBBase(object):
             else:
                 return []
         except Exception as e:
-            raise    
+            raise 
+        finally:
+            self._return_connection(conn)               
 
     def insert(self, sql_tmpl, sql_params=()):
         try:
             conn=self._get_connection()                
             cur=conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
             sql = cur.mogrify(sql_tmpl, sql_params)
-            print("insert, sql={}".format(sql))
+            print("insert, sql={}".format(sql.decode('utf-8')))
             cur.execute(sql)
             conn.commit()
-            insert_id=cur.fetchone()[0]
+            insert_id=cur.fetchone()['id']
             return insert_id 
         except Exception as e:
             raise
+        finally:
+            self._return_connection(conn)        
 
-    def execute(self, sql):
+    def execute(self, sql_tmpl, sql_params=()):
         try:
             conn=self._get_connection()                
             cur=conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+            sql = cur.mogrify(sql_tmpl, sql_params)
+            print("execute, sql={}".format(sql.decode('utf-8')))
             cur.execute(sql)
             conn.commit()
         except Exception as e:
             raise 
+        finally:
+            self._return_connection(conn)            
 
 
 
