@@ -73,7 +73,7 @@ class htmlParser(object):
                     break
 
                 cleaner = Cleaner()
-                cleaner.remove_tags = ['p','br','span','font','b','center']
+                cleaner.remove_tags = ['p','br','span','font','b','center', 'u', 'strong']
                 innertext=etree.tostring(child, encoding='unicode', method='html').replace("<div>","").replace("</div>","")
                 
                 cleaned=cleaner.clean_html(innertext)
@@ -229,7 +229,7 @@ class htmlParser(object):
                 elif '譯者' in item:
                     content['translator']=item[3:]
                 elif '出版日期' in item:
-                    content['publish_date']=item[5:]
+                    content['publish_date']=item[5:].replace('/','-')
             
             genre_info=tree.xpath("//div[@class='mod_b type02_m058 clearfix']//ul[@class='sort']")
             for p in genre_info:
@@ -239,11 +239,13 @@ class htmlParser(object):
 
             brief_info=tree.xpath("//div[@itemprop='description']")
             desc=''
+            ad_word=['關鍵特色', '好評推薦', '作者簡介', '佳評如潮', '暢銷書', '本書特色']
             if len(brief_info):
                 for child in brief_info[0]:
-                   
+                    if child.text != None and '作者簡介' in child.text:
+                        break
                     cleaner = Cleaner()
-                    cleaner.remove_tags = ['p','br','span','font','b','center']
+                    cleaner.remove_tags = ['p','br','span','font','b','center','u','strong']
                     innertext=etree.tostring(child, encoding='unicode', method='html').replace("<div>","").replace("</div>","").replace("\u3000",'').replace('\n','').replace('\r', '')
                     
                     cleaned=cleaner.clean_html(innertext)
@@ -256,7 +258,7 @@ class htmlParser(object):
             head, tail=os.path.split(filename)
             loc_idx=tail.find('loc=')
             pid=tail[:loc_idx-1]        
-            content['link']='http://www.books.com.tw/products/'+tail[:-5]
+            content['link']=['http://www.books.com.tw/products/'+tail[:-5]]
             if 'ISBN_no' not in content.keys():
                 content['ISBN_no']=pid
             #download image
@@ -370,7 +372,7 @@ if __name__=="__main__":
     elif task=='download_books_html':
         parser.download_books_html()
     elif task=='parse_books_html':
-        filename='/Users/ling/Documents/books/html/0010002876?loc=P_003_090.html'
+        filename='/Users/ling/Documents/books/html/0010358341?loc=P_003_095.html'
         parser.parse_books_html(filename)    
     elif task=="parse_books_html_folder":
         parser.parse_books_html_folder()
